@@ -3,14 +3,14 @@
 # CS356 -> Systems Paranoia
 
 CXX		= g++
-OBJS		= main.o
+OBJS		= main.o BlockCipher.o StreamCipher.o
 
 DEBUG		= -g
 CPPFLAGS	= -Wall -std=c++11 -I. -c $(DEBUG)
 
 LDFLAGS		= -Wall $(DEBUG)
 
-EXE             = PA1
+EXE             = pa1
 
 all: clean main   # by default, make my makefile clean up the project directory, just to be safe.
 
@@ -20,13 +20,22 @@ main: 	$(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $(EXE)
 	@echo ""
 
-# Compile .c files to .o files
-.o.c:
-	$(CXX) $(CPPFLAGS) $<
+main.o: main.cpp
+	@echo "-- Compiling main..."
+	$(CXX) $(CPPFLAGS) main.cpp
+
+
+BlockCipher.o: BlockCipher.cpp BlockCipher.h
+	@echo "-- Compiling BlockCipher Class..."
+	$(CXX) $(CPPFLAGS) BlockCipher.cpp
+
+StreamCipher.o: StreamCipher.cpp StreamCipher.h
+	@echo "-- Compiling StreamCipher class..."
+	$(CXX) $(CPPFLAGS) StreamCipher.cpp
 
 clean:
 	@echo "Cleaning up project directory ..."
-	rm -f $(OBJS) *~ PA1
+	rm -f $(OBJS) *~ pa1
 
 package:
 	@echo "Packaging up project directory..."
