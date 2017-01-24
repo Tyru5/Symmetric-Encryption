@@ -9,9 +9,12 @@
 // include headers:
 #include <iostream>
 #include <string>
+#include <string.h>
 
 // function declarations:
 void process_cargs( const int argc, char* argv[] );
+int block_encryption( string test );
+int stream_encryption( char& opt );
 
 // Macros:
 #define DEBUG true
@@ -27,12 +30,26 @@ int main(int argc, char *argv[]){
   return 0;
 }
 
+// Your program should ensure there are 5 arguments, and that each argument is error-checked appropriately.
 void process_cargs( const int argc, char* argv[]){
-  
-  cout << "The amount of command line args is: " << argc << endl;
-  cout << "And they are:" << endl;
-  for(int i = 0; i < argc; i++){
-    if(DEBUG) cout << "\"" << argv[i]<< "\"" << endl;
-  }
 
+  if( block_encryption( argv[1] ) || stream_encryption( argv[1] ) ){
+    // then good! perform specified encryption
+    cout << "Ready to rock main!" << endl;
+  }
+  
 }
+
+int block_encryption( string option ){
+
+  cout << option << endl;
+  
+}
+
+int stream_encryption( char& option ){
+
+  cout << option << endl;
+  
+}
+
+
