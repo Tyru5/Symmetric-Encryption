@@ -8,6 +8,7 @@
 
 // Include headers:
 #include <iostream>
+#include <fstream>
 #include <string.h>
 
 // Include Custom headers:
@@ -18,9 +19,7 @@ using namespace std;
 
 
 // function declarations:
-void process_cargs( const int argc, char* argv[] );
-int block_encryption( const string opt );
-int stream_encryption( const string opt );
+int process_cargs( const int argc, char* argv[] );
 
 // Macros:
 #define DEBUG false
@@ -28,31 +27,34 @@ int stream_encryption( const string opt );
 int main( int argc, char *argv[] ){
   
   // Process commamnd line arguements:
-  process_cargs( argc, argv );
+  if( !process_cargs( argc, argv ) ) exit(-1);
   
   return 0;
 }
 
 // Your program should ensure there are 5 arguments, and that each argument is error-checked appropriately.
-void process_cargs( const int argc, char* argv[]){
+int process_cargs( const int argc, char* argv[]){
 
-  
-  
-  
+  // first check:
+  if( argc != 6 ){
+    cout << "Not enough arguements passed. Please input 6 arguements." << endl;
+    return 0;
+  }
+
+  // grab args:
+  string var_encrypt = argv[1];
+  string input_file  = argv[2];
+
+  if( var_encrypt != "B" || var_encrypt != "S" ){
+    cout << "Method of Encryption is either: B-lock or S-tream." << endl;
+    return 0;
+  }
+
+  ifstream file( input_file );
+  if( !file ){
+    cout << "Sorry! " << input_file << " doesn't exist!" << endl;
+    return 0;
+  }
+
+  return 1;
 }
-
-int block_encryption( const string opt  ){
-
-  if(DEBUG) cout << "Method of Encryption: " << opt << endl;
-  return (opt == "B") ? 1 : 0;
-  
-}
-
-int stream_encryption( const string opt ){
-
-  if(DEBUG) cout << "Method of Encryption: " << opt << endl;  
-  return (opt == "S") ? 1 : 0;
-  
-}
-
-

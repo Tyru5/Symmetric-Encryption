@@ -18,7 +18,7 @@ all: clean main   # by default, make my makefile clean up the project directory,
 main: 	$(OBJS)
 	@echo "Linking all object modules ..."
 	$(CXX) $(LDFLAGS) $(OBJS) -o $(EXE)
-	@echo ""
+	@echo""
 
 main.o: main.cpp
 	@echo "-- Compiling main..."
