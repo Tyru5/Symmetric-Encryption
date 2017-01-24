@@ -21,11 +21,8 @@ main: 	$(OBJS)
 	@echo ""
 
 # Compile .c files to .o files
-.c.o:
-	@echo "Compiling each C source file separately ..."
+.o.c:
 	$(CXX) $(CPPFLAGS) $<
-	@echo ""
-
 
 clean:
 	@echo "Cleaning up project directory ..."
