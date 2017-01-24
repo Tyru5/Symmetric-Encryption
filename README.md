@@ -1,5 +1,6 @@
 # Symmetric-Encryption
 ![General flow](./ssldig01.gif)
+
 ~The purpose of this assignment is to familiarize the students with the concept of block ciphers and stream cipher.~
 Project 1 for cs356 Tyrus Malmstrom
 
