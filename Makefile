@@ -3,10 +3,7 @@
 # CS356 -> Systems Paranoia
 
 CXX		= g++
-OBJS		= 
-
-OBJ1		= 
-OBJ2		= 
+OBJS		= main.o
 
 DEBUG		= -g
 CPPFLAGS	= -Wall -std=c++11 -I. -c $(DEBUG)
@@ -15,11 +12,24 @@ LDFLAGS		= -Wall $(DEBUG)
 
 EXE             = PA1
 
-all: clean   # by default, make my makefile clean up the project directory, just to be safe.
+all: clean main   # by default, make my makefile clean up the project directory, just to be safe.
+
+# Target is the executable
+main: 	$(OBJS)
+	@echo "Linking all object modules ..."
+	$(CXX) $(LDFLAGS) $(OBJS) -o $(EXE)
+	@echo ""
+
+# Compile .c files to .o files
+.c.o:
+	@echo "Compiling each C source file separately ..."
+	$(CXX) $(CPPFLAGS) $<
+	@echo ""
+
 
 clean:
 	@echo "Cleaning up project directory ..."
-	rm -f $(OBJS) *~
+	rm -f $(OBJS) *~ PA1
 
 package:
 	@echo "Packaging up project directory..."
