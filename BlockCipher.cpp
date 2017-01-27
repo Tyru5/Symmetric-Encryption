@@ -14,7 +14,7 @@ using namespace std;
 
 // Macros:
 #define DEBUG true
-#define PADDING_VALUE = 0X80;
+#define PADDING_VALUE 0X80;
 
 void BlockCipher::encrypt(){
 
@@ -53,22 +53,24 @@ int BlockCipher::need_to_pad(){
 void BlockCipher::padding(){
 
   if(DEBUG) cout << "In the padding function!" << endl;
-  while( file_size % 8 != 0 ){
-    file_size += 1; // ???
-  }
-
-  if(DEBUG) cout << "new file size = " << file_size << endl;
   
-  // char* newFile = new char[file_size];
+  int numPads = 8 - (file_size % 8 );
+  new_file_size = numPads + file_size;
+  if(DEBUG) cout << "new file size = " << new_file_size << endl;
+  padded_file = vector<unsigned char>( new_file_size );
+ 
   ifstream file( inputfile_name );
   stringstream buf;
   buf << file.rdbuf();
+  if(DEBUG) cout << buf.str() << endl;
 
-  char temp;
-  while( buf >> temp ){
-    
+  for( int i = 0; i < new_file_size; i++){
+    padded_file[i] = buf.str()[i];
+    if( i == file_size ){
+      padded_file[i] = 'OX80';
+    }
   }
-    
+  
 }
 
 
