@@ -41,7 +41,7 @@ int BlockCipher::need_to_pad(){
   file.seekg(0, file.beg);
   file.close();
 
-  if (file_size % 8 != 0){
+  if( file_size % 8 != 0 ){
     return 1;
   }
 
@@ -52,7 +52,22 @@ int BlockCipher::need_to_pad(){
 
 void BlockCipher::padding(){
 
-  cout << "In the padding function!" << endl;
+  if(DEBUG) cout << "In the padding function!" << endl;
+  while( file_size % 8 != 0 ){
+    file_size += 1; // ???
+  }
+
+  if(DEBUG) cout << "new file size = " << file_size << endl;
+  
+  // char* newFile = new char[file_size];
+  ifstream file( inputfile_name );
+  stringstream buf;
+  buf << file.rdbuf();
+
+  char temp;
+  while( buf >> temp ){
+    
+  }
     
 }
 

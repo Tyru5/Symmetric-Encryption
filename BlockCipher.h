@@ -53,10 +53,10 @@ class BlockCipher {
   
   string inputfile_name;
   string outputfile_name;
-
   string key;
 
   int file_size;
+  
   
 };
 
