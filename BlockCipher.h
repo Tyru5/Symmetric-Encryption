@@ -36,7 +36,7 @@ class BlockCipher {
 
   // Encrypt || Decrpyt member functions:
   void encrypt();
-  
+
   // copy assignment operator: 1 of the BIG THREE
   const BlockCipher& operator= (const BlockCipher& rhs){
     if( this != &rhs ){ // Standard alias test...
@@ -48,9 +48,9 @@ class BlockCipher {
   }
 
 
-  
+
  protected:
-  
+
   string inputfile_name;
   string outputfile_name;
   string key;
@@ -58,10 +58,8 @@ class BlockCipher {
   int file_size;
   int new_file_size;
   int numPads;
-  
-  std::vector<unsigned char> padded_file;
-  
-  
+    
+
 };
 
 #endif // BLOCKCIPHER_H_INCLUDE

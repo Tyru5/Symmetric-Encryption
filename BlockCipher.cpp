@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <string.h>
+#include <iomanip>      // std::setfill, std::setw
 
 #include "BlockCipher.h"
 
@@ -23,8 +24,8 @@ void BlockCipher::encrypt(){
   }
 
   // lets start encrypting!
-  
-  
+
+
 }
 
 
@@ -46,31 +47,18 @@ int BlockCipher::need_to_pad(){
   }
 
   return 0;
-  
+
 }
 
 
 void BlockCipher::padding(){
 
   if(DEBUG) cout << "In the padding function!" << endl;
-  
+
   int numPads = 8 - (file_size % 8 );
   new_file_size = numPads + file_size;
   if(DEBUG) cout << "new file size = " << new_file_size << endl;
-  padded_file = vector<unsigned char>( new_file_size );
- 
-  ifstream file( inputfile_name );
-  stringstream buf;
-  buf << file.rdbuf();
-  if(DEBUG) cout << buf.str() << endl;
 
-  for( int i = 0; i < new_file_size; i++){
-    padded_file[i] = buf.str()[i];
-    if( i == file_size ){
-      padded_file[i] = 'OX80';
-    }
-  }
-  
 }
 
 
@@ -86,11 +74,11 @@ void BlockCipher::swap_chars( char string[], char key[] ){
 
   char* sp =  &string[0];
   char* ep = &string[ strlen(string) - 1];
-  
+
   for( int i = 0; i < (int) strlen(string); i++){
 
     if( *sp == *ep ) break;
-    
+
     if( can_swap( i, key ) ){
       // swap chars and increment pointers
       char temp = *sp;
@@ -101,8 +89,8 @@ void BlockCipher::swap_chars( char string[], char key[] ){
     }else{
       sp++;
     }
-    
+
   }
-   
+
 }
 
