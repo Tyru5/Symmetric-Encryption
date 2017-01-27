@@ -13,7 +13,50 @@
 using namespace std;
 
 // Macros:
-#define DEBUG false
+#define DEBUG true
+#define PADDING_VALUE = 0X80;
+
+void BlockCipher::encrypt(){
+
+  if( need_to_pad() ){
+    padding();
+  }
+
+  // lets start encrypting!
+  
+  
+}
+
+
+int BlockCipher::need_to_pad(){
+
+  /* From my understanding, to tell if a plaintext file needs to be padded, is if the file size itself is not
+     a multiple of 8. Thus I will get the length of the file (in bytes) and mod 8 */
+  ifstream file(inputfile_name);
+
+  // get length of the file:
+  file.seekg(0, file.end );
+  file_size = file.tellg();
+  if(DEBUG) cout << "The file size (bytes) = " << file_size << endl;
+  file.seekg(0, file.beg);
+  file.close();
+
+  if (file_size % 8 != 0){
+    return 1;
+  }
+
+  return 0;
+  
+}
+
+
+void BlockCipher::padding(){
+
+  cout << "In the padding function!" << endl;
+    
+}
+
+
 
 
 

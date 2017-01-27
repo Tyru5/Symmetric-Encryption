@@ -20,7 +20,7 @@ class BlockCipher {
   BlockCipher(){};
 
   // v-Constructor:
- BlockCipher(const string& inputfile_name_, const string& outputfile_name_, const string& key_):
+ BlockCipher(const string& inputfile_name_, const string& outputfile_name_, const string& key_ ):
   inputfile_name( inputfile_name_ ),
   outputfile_name( outputfile_name_ ),
   key( key_ )
@@ -31,13 +31,32 @@ class BlockCipher {
   int can_swap( const int& idx, char key[] );
   void swap_chars( char string[], char key[] );
 
+  int need_to_pad();
+  void padding();
+
+  // Encrypt || Decrpyt member functions:
+  void encrypt();
+  
+  // copy assignment operator: 1 of the BIG THREE
+  const BlockCipher& operator= (const BlockCipher& rhs){
+    if( this != &rhs ){ // Standard alias test...
+      inputfile_name  = rhs.inputfile_name;
+      outputfile_name = rhs.outputfile_name;
+      key             = rhs.key;
+    }
+    return *this;
+  }
+
+
+  
  protected:
   
   string inputfile_name;
   string outputfile_name;
 
   string key;
-  
+
+  int file_size;
   
 };
 
