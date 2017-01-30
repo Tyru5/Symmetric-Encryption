@@ -64,6 +64,11 @@ int BlockCipher::need_to_pad(){
   return 0;
 }
 
+/* for(int i = 0; i < padded file size; i++){
+   ~~~XOR:~~~
+   paddedFile[i] = paddedFile[i] ^ key[i % key_size]; for the wrap around.
+}
+*/
 
 void BlockCipher::padding(){
 
