@@ -21,15 +21,16 @@ string Read8Bytes( ifstream& stream, uint8_t nchars);
 void BlockCipher::encrypt(){
 
   ifstream _key( key );
-  stringstream e_key;
-  e_key << _key.rdbuf();
-  _key.close();
-  if(DEBUG) cout << "The key is: " << e_key.str() << endl;
+  string current_key;
+  getline( _key, current_key );
+  
+  if(DEBUG) cout << "The key is: " << current_key << endl;
 
   if( need_to_pad() ){
 
       padding();
-
+      
+      
   }else{
     // didn't need to pad, work with original file:
     cout << "Didn't need to pad the input file!" << endl;
