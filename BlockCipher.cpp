@@ -15,30 +15,24 @@ using namespace std;
 // function  prototypes:
 string Read8Bytes( ifstream& stream, uint8_t nchars);
 
-
 // Macros:
 #define DEBUG true
 
 void BlockCipher::encrypt(){
 
+  ifstream _key( key );
+  stringstream e_key;
+  e_key << _key.rdbuf();
+  _key.close();
+  if(DEBUG) cout << "The key is: " << e_key.str() << endl;
+
   if( need_to_pad() ){
 
       padding();
 
-      ifstream file( inputfile_name );
-      while( !file.eof() ){
-        string test = Read8Bytes( file, 8 );
-        for(int i = 0; i < test.length(); i++){
-          cout << test[i] ^ key[i] << endl;
-        }
-        cout << (int) test[6] << endl;
-      }
-
   }else{
-
     // didn't need to pad, work with original file:
     cout << "Didn't need to pad the input file!" << endl;
-
   }
 
 }
@@ -52,11 +46,9 @@ string Read8Bytes( ifstream& stream, uint8_t nchars){
 }
 
 int BlockCipher::need_to_pad(){
-
   /* From my understanding, to tell if a plaintext file needs to be padded, is if the file size itself is not
      a multiple of 8. Thus I will get the length of the file (in bytes) and mod 8 */
   ifstream file( inputfile_name );
-
   // get length of the file:
   file.seekg(0, file.end );
   file_size = file.tellg();
@@ -69,7 +61,6 @@ int BlockCipher::need_to_pad(){
   }
 
   return 0;
-
 }
 
 
@@ -80,7 +71,7 @@ void BlockCipher::padding(){
   if(DEBUG) cout << "numPads = " << numPads << endl;
   ofstream padding( inputfile_name, ofstream::app | ofstream::ate );
   while( numPads != 0 ){
-    padding << (char) 0x80;
+    padding << static_cast<char>( 0x80 );
     numPads -=1;
   }
   if( DEBUG ) cout << "Done padding." << endl;

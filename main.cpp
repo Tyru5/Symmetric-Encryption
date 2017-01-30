@@ -27,7 +27,7 @@ void usage( string message, string argv );
 #define DEBUG false
 
 int main( int argc, char *argv[] ){
-  
+
   // Process commamnd line arguements:
   if( process_cargs( argc, argv ) ){
     usage( "Incorrect Command Line Arguements:", argv[0] );
@@ -43,9 +43,8 @@ int main( int argc, char *argv[] ){
   string mode_of_operation  = argv[5];
 
   switch( toei ){
-
   case 1:
-    
+
     {
     BlockCipher bce = BlockCipher( input_file, output_file, key_file );
     if( mode_of_operation == "E"){
@@ -55,7 +54,7 @@ int main( int argc, char *argv[] ){
     }
     break;
     }
-      
+
   case 0:
     {
     // StreamCipher sce = StreamCipher( input_file, output_file, key_file );
@@ -64,9 +63,8 @@ int main( int argc, char *argv[] ){
 
   default:
     break;
-    
   }
-  
+
   return 0;
 }
 
@@ -86,8 +84,8 @@ void usage( string message, string argv ){
   cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~." << endl;
   cout << "The fifth and last arguement, is the \'mode of operatoin\'."     << endl;
   cout << " --> Can be either \'E\' for Encryption or \'D\' for decryption." << endl;
-  
-  
+
+
 }
 
 // Your program should ensure there are 5 arguments, and that each argument is error-checked appropriately.
@@ -115,6 +113,6 @@ int process_cargs( const int argc, char* argv[]){
   }
 
   file.close();
-  
+
   return 0;
 }
