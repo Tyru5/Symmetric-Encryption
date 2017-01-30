@@ -75,10 +75,13 @@ void BlockCipher::padding( char* paddedFile, char* buffer ){
   if(DEBUG) cout << "In the padding function!" << endl;
 
   // Copy file chars into char array:
-  for( int i = 0; i < padded_file_size; i++){
+  for( int i = 0; i < file_size; i++){
+    cout << "in the buffer" << buffer[i] << endl;
     paddedFile[i] = buffer[i];
     if( i == file_size ){ // now start padding
-      paddedFile[i] = 0x80;
+      for(int c = 0; c < numPads; c++){
+        paddedFile[i] = 0x80;        
+      }
     }
 
   }
