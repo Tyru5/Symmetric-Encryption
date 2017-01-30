@@ -6,34 +6,56 @@
 #include <fstream>
 #include <sstream>
 #include <string.h>
-#include <iomanip>      // std::setfill, std::setw
 
 #include "BlockCipher.h"
 
 // namespace:
 using namespace std;
 
+// function  prototypes:
+string Read8Bytes( ifstream& stream, uint8_t nchars);
+
+
 // Macros:
 #define DEBUG true
-#define PADDING_VALUE 0X80;
 
 void BlockCipher::encrypt(){
 
   if( need_to_pad() ){
-    padding();
+
+      padding();
+
+      ifstream file( inputfile_name );
+      while( !file.eof() ){
+        string test = Read8Bytes( file, 8 );
+        for(int i = 0; i < test.length(); i++){
+          cout << test[i] ^ key[i] << endl;
+        }
+        cout << (int) test[6] << endl;
+      }
+
+  }else{
+
+    // didn't need to pad, work with original file:
+    cout << "Didn't need to pad the input file!" << endl;
+
   }
-
-  // lets start encrypting!
-
 
 }
 
+
+string Read8Bytes( ifstream& stream, uint8_t nchars){
+    string result(nchars, ' ');
+    stream.read(&result[0], nchars);
+    cout << "8 bytes are: " << result << endl;
+    return result;
+}
 
 int BlockCipher::need_to_pad(){
 
   /* From my understanding, to tell if a plaintext file needs to be padded, is if the file size itself is not
      a multiple of 8. Thus I will get the length of the file (in bytes) and mod 8 */
-  ifstream file(inputfile_name);
+  ifstream file( inputfile_name );
 
   // get length of the file:
   file.seekg(0, file.end );
@@ -54,15 +76,17 @@ int BlockCipher::need_to_pad(){
 void BlockCipher::padding(){
 
   if(DEBUG) cout << "In the padding function!" << endl;
-
   int numPads = 8 - (file_size % 8 );
-  new_file_size = numPads + file_size;
-  if(DEBUG) cout << "new file size = " << new_file_size << endl;
+  if(DEBUG) cout << "numPads = " << numPads << endl;
+  ofstream padding( inputfile_name, ofstream::app | ofstream::ate );
+  while( numPads != 0 ){
+    padding << (char) 0x80;
+    numPads -=1;
+  }
+  if( DEBUG ) cout << "Done padding." << endl;
+  padding.close();
 
 }
-
-
-
 
 
 int BlockCipher::can_swap( const int& idx, char key[] ){

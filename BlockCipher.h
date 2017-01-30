@@ -56,9 +56,7 @@ class BlockCipher {
   string key;
 
   int file_size;
-  int new_file_size;
   int numPads;
-    
 
 };
 
