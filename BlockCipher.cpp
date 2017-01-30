@@ -12,38 +12,38 @@
 // namespace:
 using namespace std;
 
-// function  prototypes:
-string Read8Bytes( ifstream& stream, uint8_t nchars);
+// function prototypes
+void ReadFile( char* buffer, const string& file_name );
 
 // Macros:
 #define DEBUG true
 
 void BlockCipher::encrypt(){
 
-  ifstream _key( key );
-  string current_key;
-  getline( _key, current_key );
-  
-  if(DEBUG) cout << "The key is: " << current_key << endl;
-
   if( need_to_pad() ){
 
-      padding();
-      
-      
+    int numPads = 8 - (file_size % 8 );
+    padded_file_size = file_size + numPads;
+    if(DEBUG) cout << "numPads = " << numPads << endl;
+
+    char buffer[file_size];
+    ReadFile( buffer, inputfile_name );
+    char* paddedFile = new char[ padded_file_size ];
+    padding( paddedFile, buffer );
+
+    cout << "Printing out the newly padded file with pad bytes:" << endl;
+    ofstream test("test.txt");
+    for(int i = 0; i < padded_file_size; i++){
+      test << paddedFile[i];
+    }
+
+    delete paddedFile;
+
   }else{
     // didn't need to pad, work with original file:
     cout << "Didn't need to pad the input file!" << endl;
   }
 
-}
-
-
-string Read8Bytes( ifstream& stream, uint8_t nchars){
-    string result(nchars, ' ');
-    stream.read(&result[0], nchars);
-    cout << "8 bytes are: " << result << endl;
-    return result;
 }
 
 int BlockCipher::need_to_pad(){
@@ -70,21 +70,35 @@ int BlockCipher::need_to_pad(){
 }
 */
 
-void BlockCipher::padding(){
+void BlockCipher::padding( char* paddedFile, char* buffer ){
 
   if(DEBUG) cout << "In the padding function!" << endl;
-  int numPads = 8 - (file_size % 8 );
-  if(DEBUG) cout << "numPads = " << numPads << endl;
-  ofstream padding( inputfile_name, ofstream::app | ofstream::ate );
-  while( numPads != 0 ){
-    padding << static_cast<char>( 0x80 );
-    numPads -=1;
+
+  // Copy file chars into char array:
+  for( int i = 0; i < padded_file_size; i++){
+    paddedFile[i] = buffer[i];
+    if( i == file_size ){ // now start padding
+      paddedFile[i] = 0x80;
+    }
+
   }
-  if( DEBUG ) cout << "Done padding." << endl;
-  padding.close();
 
 }
 
+void ReadFile( char* buffer, const string& file_name ){
+
+  ifstream file( file_name );
+
+  // get length of file:
+  file.seekg (0, file.end);
+  int length = file.tellg();
+  file.seekg (0, file.beg);
+
+  // read data as a block:
+  file.read (buffer,length);
+  file.close();
+
+}
 
 int BlockCipher::can_swap( const int& idx, char key[] ){
   // cout << idx << endl;

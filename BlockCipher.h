@@ -32,7 +32,7 @@ class BlockCipher {
   void swap_chars( char string[], char key[] );
 
   int need_to_pad();
-  void padding();
+  void padding( char* paddedFile, char* buffer );
 
   // Encrypt || Decrpyt member functions:
   void encrypt();
@@ -56,8 +56,10 @@ class BlockCipher {
   string key;
 
   int file_size;
+  int padded_file_size;
   int numPads;
 
+  
 };
 
 #endif // BLOCKCIPHER_H_INCLUDE
