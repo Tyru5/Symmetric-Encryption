@@ -18,7 +18,43 @@ void ReadFile( char* buffer, const string& file_name );
 // Macros:
 #define DEBUG true
 
+int get_key_size( const string& key_file ){
+  
+  ifstream file( key_file );
+
+  // get length of the file:
+  file.seekg(0, file.end );
+  int key_size = file.tellg();
+  file.seekg(0, file.beg);
+  file.close();
+
+  if(DEBUG) cout << "The size (length) of the key file is: " << key_size << endl;
+  return key_size;
+
+}
+
+
+void extract_key( char* key_buffer, const string& key_file ){
+
+  ifstream file( key_file );
+
+  // get length of file:
+  file.seekg (0, file.end);
+  int length = file.tellg();
+  file.seekg (0, file.beg);
+
+  // read data as a block:
+  file.read ( key_buffer,length );
+  file.close();
+
+}
+
 void BlockCipher::encrypt(){
+
+  // Regardless of procedure, need to extract the key from the file:
+  int key_length = get_key_size( key );
+  char* the_key = new char[ key_length ];
+  extract_key( the_key, key );
 
   if( need_to_pad() ){
 
@@ -36,7 +72,15 @@ void BlockCipher::encrypt(){
       cout << paddedFile[i] << endl;
     }
 
-    delete paddedFile;
+
+    /*for(int i = 0; i < padded file size; i++){
+      // ~~~XOR:~~~
+      paddedFile[i] = paddedFile[i] ^ key[i % key_size];
+      }*/
+
+
+    delete[] paddedFile;
+    delete[] the_key;
 
   }else{
     // didn't need to pad, work with original file:
@@ -63,11 +107,6 @@ int BlockCipher::need_to_pad(){
   return 0;
 }
 
-/* for(int i = 0; i < padded file size; i++){
-   ~~~XOR:~~~
-   paddedFile[i] = paddedFile[i] ^ key[i % key_size]; for the wrap around.
-}
-*/
 
 void BlockCipher::padding( char* paddedFile, char* buffer ){
 
@@ -76,9 +115,9 @@ void BlockCipher::padding( char* paddedFile, char* buffer ){
   // Copy file chars into char array:
   for( int i = 0; i < padded_file_size; i++){
     if( i >= file_size ){ // now start padding
-        paddedFile[i] = 0x80;
-      }else{
-        paddedFile[i] = buffer[i];
+      paddedFile[i] = 0x80;
+    }else{
+      paddedFile[i] = buffer[i];
     }
   } // end of for loop
 
