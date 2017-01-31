@@ -23,8 +23,8 @@ void BlockCipher::encrypt(){
   if( need_to_pad() ){
 
     int numPads = 8 - (file_size % 8 );
-    padded_file_size = file_size + numPads;
     if(DEBUG) cout << "numPads = " << numPads << endl;
+    padded_file_size = file_size + numPads;
 
     char buffer[file_size];
     ReadFile( buffer, inputfile_name );
@@ -32,9 +32,8 @@ void BlockCipher::encrypt(){
     padding( paddedFile, buffer );
 
     cout << "Printing out the newly padded file with pad bytes:" << endl;
-    ofstream test("test.txt");
     for(int i = 0; i < padded_file_size; i++){
-      test << paddedFile[i];
+      cout << paddedFile[i] << endl;
     }
 
     delete paddedFile;
@@ -75,16 +74,13 @@ void BlockCipher::padding( char* paddedFile, char* buffer ){
   if(DEBUG) cout << "In the padding function!" << endl;
 
   // Copy file chars into char array:
-  for( int i = 0; i < file_size; i++){
-    cout << "in the buffer" << buffer[i] << endl;
-    paddedFile[i] = buffer[i];
-    if( i == file_size ){ // now start padding
-      for(int c = 0; c < numPads; c++){
-        paddedFile[i] = 0x80;        
-      }
+  for( int i = 0; i < padded_file_size; i++){
+    if( i >= file_size ){ // now start padding
+        paddedFile[i] = 0x80;
+      }else{
+        paddedFile[i] = buffer[i];
     }
-
-  }
+  } // end of for loop
 
 }
 
