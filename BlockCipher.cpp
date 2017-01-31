@@ -73,10 +73,26 @@ void BlockCipher::encrypt(){
     }
 
 
-    /*for(int i = 0; i < padded file size; i++){
+    for(int i = 0; i < padded_file_size; i++){
       // ~~~XOR:~~~
-      paddedFile[i] = paddedFile[i] ^ key[i % key_size];
-      }*/
+      cout << paddedFile[i] << " with " << the_key[ i % key_length ] << endl;
+      paddedFile[i] ^= the_key[ i % key_length ]; // this will allow for wrap around of the key
+    }
+
+    cout << "Testing XOR main" << endl;
+    for(int i = 0; i < padded_file_size; i++){
+      cout << paddedFile[i] << endl;
+    }
+    
+
+    cout << "Testing XOR main decrypt" << endl;
+    for(int i = 0; i < padded_file_size; i++){
+      paddedFile[i] ^=  the_key[ i % key_length ]; // this will allow for wrap around of the key
+    }
+
+    for(int i = 0; i < padded_file_size; i++){
+      cout << paddedFile[i] << endl;
+    }
 
 
     delete[] paddedFile;
