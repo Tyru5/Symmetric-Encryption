@@ -159,7 +159,8 @@ void BlockCipher::decrypt(){
   // Now writing out to the file:
   ofstream outfile( outputfile_name );
   for( int i = 0; i < ret_file; i++){
-    if( cipher_buffer[i] == (char) 0x80 ){ // don't write out padded bytes
+    if( cipher_buffer[i] == (char) 0x80 ){
+      // don't write out padded bytes:
       continue;
     }else{
       outfile << cipher_buffer[i];
