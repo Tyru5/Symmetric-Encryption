@@ -260,14 +260,18 @@ void swap_chars( char *XORed_string, char *key, const int& key_size ){
   char* ep = &XORed_string[ strlen(XORed_string) - 1];
 
   for( int i = 0; i < (int) strlen(XORed_string); i++){
-    if( sp == ep ) break; // pointers having same address
+    if( (*sp == *ep) || (ep < sp) ){ // added collision test as well
+      break;
+    }
     if( can_swap( ( i % key_size ), key ) ){
       // swap chars and increment pointers
+      // cout << "Swapped at letter: " << key[i] << endl;
       char temp = *sp;
       *sp = *ep;
       *ep = temp;
       sp++;
       ep--;
+      // cout << XORed_string << endl;
     }else{
       sp++;
     }
