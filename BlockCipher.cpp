@@ -19,7 +19,7 @@ void swap_chars( char *string,char *key, const int& key_size );
 int can_swap( const int& idx, char *key );
 
 // Macros:
-#define DEBUG true
+#define DEBUG false
 
 int get_key_size( const string& key_file ){
   ifstream file( key_file );
@@ -29,7 +29,7 @@ int get_key_size( const string& key_file ){
   file.seekg(0, file.beg);
   file.close();
 
-  if(DEBUG) cout << "The size (length) of the key file is: " << key_size << endl;
+  // if(DEBUG) cout << "The size (length) of the key file is: " << key_size << endl;
   return key_size;
 }
 
@@ -47,6 +47,8 @@ void extract_key( char* key_buffer, const string& key_file ){
 }
 
 void BlockCipher::encrypt(){
+
+  cout << "Encrypting the file..." << endl;
 
   // Regardless of procedure, need to extract the key from the file:
   int key_length = get_key_size( key );
@@ -67,7 +69,7 @@ void BlockCipher::encrypt(){
     if(DEBUG){
       cout << "Printing out the newly padded file with pad bytes:" << endl;
       for(int i = 0; i < padded_file_size; i++){
-	cout << paddedFile[i] << endl;
+	       cout << paddedFile[i] << endl;
       }
     }
 
@@ -88,7 +90,7 @@ void BlockCipher::encrypt(){
     for( int i = 0; i < padded_file_size; i++){
       outfile << paddedFile[i];
       if( i == (padded_file_size) ){
-	outfile << endl;
+	       outfile << endl;
       }
     }
 
@@ -112,16 +114,13 @@ void BlockCipher::encrypt(){
     // Swap algorithm:
     swap_chars( file_np, the_key, key_length);
 
-    for(int i =0; i < file_size; i++){
-      cout << file_np[i] << endl;
-    }
 
     // Now writing out to the file:
     ofstream outfile( outputfile_name );
     for( int i = 0; i < file_size; i++){
       outfile << file_np[i];
       if( i == (file_size) ){ // not really need as of now.
-	outfile << endl;
+	       outfile << endl;
       }
     }
 
@@ -130,6 +129,8 @@ void BlockCipher::encrypt(){
     delete[] file_np;
 
   }// end of else;
+
+  cout << "Done encrypting the file..." << endl;
 
 }// end of encrypt
 
@@ -179,7 +180,7 @@ int BlockCipher::get_length_of_file(){
   // get length of the file:
   file.seekg(0, file.end );
   int file_length = file.tellg();
-  if(DEBUG) cout << "\"Decrypt\" :: The file size (bytes) = " << file_length << endl;
+  // if(DEBUG) cout << "\"Decrypt\" :: The file size (bytes) = " << file_length << endl;
   file.seekg(0, file.beg);
   file.close();
 
@@ -249,7 +250,7 @@ void test( const int& file_length, const int& key_len, char* pf, char* key ){
 
 int can_swap( const int& idx, char *key ){
   // cout << idx << endl;
-  if(DEBUG) cout << (int) key[idx] << endl;
+  // if(DEBUG) cout << (int) key[idx] << endl;
   return ( (int) key[idx] % 2 == 0 ) ? 0 : 1;
 }
 

@@ -102,7 +102,7 @@ int process_cargs( const int argc, char* argv[]){
   string var_encrypt = argv[1];
   string input_file  = argv[2];
   string moe         = argv[5];
- 
+
   if( var_encrypt != "B" && var_encrypt != "S" ){
     cout << "<Error>: Method of Encryption is either: B-lock or S-tream." << endl << endl;
     return 1;
@@ -119,7 +119,7 @@ int process_cargs( const int argc, char* argv[]){
     cout << "<Error>: Mode of operation is either: E-cryption or D-ecryption." << endl << endl;
     return 1;
   }
-  
+
 
   return 0;
 }
