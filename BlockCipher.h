@@ -33,6 +33,7 @@ class BlockCipher {
 
   // Encrypt || Decrpyt member functions:
   void encrypt();
+  void decrypt();
 
   // copy assignment operator: 1 of the BIG THREE
   const BlockCipher& operator= (const BlockCipher& rhs){

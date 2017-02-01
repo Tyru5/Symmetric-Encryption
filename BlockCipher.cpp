@@ -19,7 +19,7 @@ void swap_chars( char *string,char *key );
 int can_swap( const int& idx, char *key );
 
 // Macros:
-#define DEBUG false
+#define DEBUG true
 
 int get_key_size( const string& key_file ){  
   ifstream file( key_file );
@@ -87,7 +87,7 @@ void BlockCipher::encrypt(){
     ofstream outfile( outputfile_name );
     for( int i = 0; i < padded_file_size; i++){
       outfile << paddedFile[i];
-      if( i == padded_file_size ){
+      if( i == (padded_file_size-1) ){
 	outfile << endl;
       }
     }
@@ -98,10 +98,41 @@ void BlockCipher::encrypt(){
     delete[] the_key;
 
   }else{
-    // didn't need to pad, work with original file:
-    cout << "Didn't need to pad the input file!" << endl;
-  }
 
+    if(DEBUG) cout << "Didn't need to pad the input file!" << endl;
+    char* file_np = new char[ file_size ];    
+    ReadFile( file_np, inputfile_name );
+
+    for(int i = 0; i < file_size; i++){
+      // ~~~XOR:~~~
+      // if(DEBUG) cout << paddedFile[i] << " with " << the_key[ i % key_length ] << endl;
+      file_np[i] ^= the_key[ i % key_length ]; // this will allow for wrap around of the key
+    }
+
+    // Swap algorithm:
+    swap_chars( file_np, the_key );
+
+    // Now writing out to the file:
+    ofstream outfile( outputfile_name );
+    for( int i = 0; i < file_size; i++){
+      outfile << file_np[i];
+      if( i == (file_size-1) ){
+	outfile << endl;
+      }
+    }
+    
+    outfile.close();
+    
+    delete[] file_np;
+
+  }// end of else;
+
+}
+
+void BlockCipher::decrypt(){
+  
+  
+  
 }
 
 int BlockCipher::need_to_pad(){
@@ -114,11 +145,9 @@ int BlockCipher::need_to_pad(){
   if(DEBUG) cout << "The file size (bytes) = " << file_size << endl;
   file.seekg(0, file.beg);
   file.close();
-
   if( file_size % 8 != 0 ){
     return 1;
   }
-
   return 0;
 }
 

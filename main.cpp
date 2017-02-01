@@ -50,7 +50,7 @@ int main( int argc, char *argv[] ){
     if( mode_of_operation == "E"){
       bce.encrypt();
     }else{
-      // bce.decrypt();
+      bce.decrypt();
     }
     break;
     }
