@@ -87,7 +87,7 @@ void BlockCipher::encrypt(){
     ofstream outfile( outputfile_name );
     for( int i = 0; i < padded_file_size; i++){
       outfile << paddedFile[i];
-      if( i == (padded_file_size-1) ){
+      if( i == (padded_file_size) ){
 	outfile << endl;
       }
     }
@@ -116,7 +116,7 @@ void BlockCipher::encrypt(){
     ofstream outfile( outputfile_name );
     for( int i = 0; i < file_size; i++){
       outfile << file_np[i];
-      if( i == (file_size-1) ){
+      if( i == (file_size) ){
 	outfile << endl;
       }
     }
