@@ -49,7 +49,8 @@ int main( int argc, char *argv[] ){
     BlockCipher bce = BlockCipher( input_file, output_file, key_file );
     if( mode_of_operation == "E"){
       bce.encrypt();
-    }else{
+    }
+    if( mode_of_operation == "D"){
       bce.decrypt();
     }
     break;
@@ -100,7 +101,8 @@ int process_cargs( const int argc, char* argv[]){
   // grab args:
   string var_encrypt = argv[1];
   string input_file  = argv[2];
-
+  string moe         = argv[5];
+ 
   if( var_encrypt != "B" && var_encrypt != "S" ){
     cout << "<Error>: Method of Encryption is either: B-lock or S-tream." << endl << endl;
     return 1;
@@ -111,8 +113,13 @@ int process_cargs( const int argc, char* argv[]){
     cout << "<Error>: Sorry! " << input_file << " doesn't exist!" << endl << endl;
     return 1;
   }
-
   file.close();
+
+  if( moe != "E" && moe != "D" ){
+    cout << "<Error>: Mode of operation is either: E-cryption or D-ecryption." << endl << endl;
+    return 1;
+  }
+  
 
   return 0;
 }

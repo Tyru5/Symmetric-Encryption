@@ -30,6 +30,7 @@ class BlockCipher {
   // Member functions:
   int need_to_pad();
   void padding( char* paddedFile, char* buffer );
+  int get_length_of_file();
 
   // Encrypt || Decrpyt member functions:
   void encrypt();
@@ -49,10 +50,10 @@ class BlockCipher {
 
  protected:
 
+  /* For Encryption */
   string inputfile_name;
   string outputfile_name;
   string key;
-
   int file_size;
   int padded_file_size;
   int numPads;
