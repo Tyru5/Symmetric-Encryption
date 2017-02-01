@@ -47,7 +47,6 @@ class BlockCipher {
   }
 
 
-
  protected:
 
   /* For Encryption */
@@ -58,7 +57,7 @@ class BlockCipher {
   int padded_file_size;
   int numPads;
 
-  
+
 };
 
 #endif // BLOCKCIPHER_H_INCLUDE
