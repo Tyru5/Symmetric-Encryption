@@ -13,15 +13,16 @@
 using namespace std;
 
 // function prototypes
+void test( const int& file_length, const int& key_len, char* pf, char* key );
 void ReadFile( char* buffer, const string& file_name );
+void swap_chars( char *string,char *key );
+int can_swap( const int& idx, char *key );
 
 // Macros:
-#define DEBUG true
+#define DEBUG false
 
-int get_key_size( const string& key_file ){
-  
+int get_key_size( const string& key_file ){  
   ifstream file( key_file );
-
   // get length of the file:
   file.seekg(0, file.end );
   int key_size = file.tellg();
@@ -30,14 +31,11 @@ int get_key_size( const string& key_file ){
 
   if(DEBUG) cout << "The size (length) of the key file is: " << key_size << endl;
   return key_size;
-
 }
 
 
 void extract_key( char* key_buffer, const string& key_file ){
-
   ifstream file( key_file );
-
   // get length of file:
   file.seekg (0, file.end);
   int length = file.tellg();
@@ -46,7 +44,6 @@ void extract_key( char* key_buffer, const string& key_file ){
   // read data as a block:
   file.read ( key_buffer,length );
   file.close();
-
 }
 
 void BlockCipher::encrypt(){
@@ -67,33 +64,35 @@ void BlockCipher::encrypt(){
     char* paddedFile = new char[ padded_file_size ];
     padding( paddedFile, buffer );
 
-    cout << "Printing out the newly padded file with pad bytes:" << endl;
-    for(int i = 0; i < padded_file_size; i++){
-      cout << paddedFile[i] << endl;
+    if(DEBUG){
+      cout << "Printing out the newly padded file with pad bytes:" << endl;
+      for(int i = 0; i < padded_file_size; i++){
+	cout << paddedFile[i] << endl;
+      }
     }
-
 
     for(int i = 0; i < padded_file_size; i++){
       // ~~~XOR:~~~
-      cout << paddedFile[i] << " with " << the_key[ i % key_length ] << endl;
+      // if(DEBUG) cout << paddedFile[i] << " with " << the_key[ i % key_length ] << endl;
       paddedFile[i] ^= the_key[ i % key_length ]; // this will allow for wrap around of the key
     }
 
-    cout << "Testing XOR main" << endl;
-    for(int i = 0; i < padded_file_size; i++){
-      cout << paddedFile[i] << endl;
-    }
-    
+    // Testing after XOR operation:
+    // if(DEBUG)test( padded_file_size, key_length, paddedFile, the_key );
 
-    cout << "Testing XOR main decrypt" << endl;
-    for(int i = 0; i < padded_file_size; i++){
-      paddedFile[i] ^=  the_key[ i % key_length ]; // this will allow for wrap around of the key
+    // Swap algorithm:
+    swap_chars( paddedFile, the_key );
+
+    // Now writing out to the file:
+    ofstream outfile( outputfile_name );
+    for( int i = 0; i < padded_file_size; i++){
+      outfile << paddedFile[i];
+      if( i == padded_file_size ){
+	outfile << endl;
+      }
     }
 
-    for(int i = 0; i < padded_file_size; i++){
-      cout << paddedFile[i] << endl;
-    }
-
+    outfile.close();
 
     delete[] paddedFile;
     delete[] the_key;
@@ -139,6 +138,8 @@ void BlockCipher::padding( char* paddedFile, char* buffer ){
 
 }
 
+/* ~HELPER FUNCTIONS~ */
+
 void ReadFile( char* buffer, const string& file_name ){
 
   ifstream file( file_name );
@@ -154,20 +155,39 @@ void ReadFile( char* buffer, const string& file_name ){
 
 }
 
-int BlockCipher::can_swap( const int& idx, char key[] ){
+
+void test( const int& file_length, const int& key_len, char* pf, char* key ){
+
+  cout << "Testing XOR main" << endl;
+  for(int i = 0; i < file_length; i++){
+    cout << pf[i] << endl;
+  }
+
+  cout << "Testing XOR main decrypt" << endl;
+  for(int i = 0; i < file_length; i++){
+    pf[i] ^=  key[ i % key_len ]; // this will allow for wrap around of the key
+  }
+
+  for(int i = 0; i < file_length; i++){
+    cout << pf[i] << endl;
+  }
+
+
+}
+
+int can_swap( const int& idx, char *key ){
   // cout << idx << endl;
   return ( (int) key[idx] % 2 == 0 ) ? 0 : 1;
 }
 
-void BlockCipher::swap_chars( char string[], char key[] ){
+void swap_chars( char *XORed_string, char *key ){
 
-  char* sp =  &string[0];
-  char* ep = &string[ strlen(string) - 1];
+  char* sp =  &XORed_string[0];
+  char* ep = &XORed_string[ strlen(XORed_string) - 1];
 
-  for( int i = 0; i < (int) strlen(string); i++){
+  for( int i = 0; i < (int) strlen(XORed_string); i++){
 
     if( *sp == *ep ) break;
-
     if( can_swap( i, key ) ){
       // swap chars and increment pointers
       char temp = *sp;
@@ -179,7 +199,6 @@ void BlockCipher::swap_chars( char string[], char key[] ){
       sp++;
     }
 
-  }
+  }// end of for-loop
 
 }
-

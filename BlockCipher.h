@@ -28,9 +28,6 @@ class BlockCipher {
 
 
   // Member functions:
-  int can_swap( const int& idx, char key[] );
-  void swap_chars( char string[], char key[] );
-
   int need_to_pad();
   void padding( char* paddedFile, char* buffer );
 
