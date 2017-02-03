@@ -147,17 +147,13 @@ void BlockCipher::decrypt(){
         char* cipher_buffer = new char[ ret_file ];
         ReadFile( cipher_buffer, inputfile_name );
 
-        for(int i = 0; i < ret_file; i++) {
-                cout << cipher_buffer[i] << endl;
-        }
-
         // First, now swap algorithm:
         swap_chars( cipher_buffer, the_key, key_length );
 
         // Second, XOR algorithm:
         for(int i = 0; i < ret_file; i++) {
                 // ~~~XOR:~~~
-                if(DEBUG) cout << cipher_buffer[i] << " with " << the_key[ i % key_length ] << endl;
+                // if(DEBUG) cout << cipher_buffer[i] << " with " << the_key[ i % key_length ] << endl;
                 cipher_buffer[i] ^= the_key[ i % key_length ]; // this will allow for wrap around of the key
         }
 
