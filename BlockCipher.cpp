@@ -147,13 +147,17 @@ void BlockCipher::decrypt(){
         char* cipher_buffer = new char[ ret_file ];
         ReadFile( cipher_buffer, inputfile_name );
 
+        for(int i = 0; i < ret_file; i++) {
+                cout << cipher_buffer[i] << endl;
+        }
+
         // First, now swap algorithm:
         swap_chars( cipher_buffer, the_key, key_length );
 
         // Second, XOR algorithm:
         for(int i = 0; i < ret_file; i++) {
                 // ~~~XOR:~~~
-                // if(DEBUG) cout << paddedFile[i] << " with " << the_key[ i % key_length ] << endl;
+                if(DEBUG) cout << cipher_buffer[i] << " with " << the_key[ i % key_length ] << endl;
                 cipher_buffer[i] ^= the_key[ i % key_length ]; // this will allow for wrap around of the key
         }
 
@@ -239,7 +243,7 @@ void test( const int& file_length, const int& key_len, char* pf, char* key ){
 
         cout << "Testing XOR main" << endl;
         for(int i = 0; i < file_length; i++) {
-                cout << pf[i] << endl;
+                cout << pf[i];
         }
 
         cout << "Testing XOR main decrypt" << endl;
@@ -262,16 +266,20 @@ int can_swap( const int& idx, char *key ){
 
 void swap_chars( char *XORed_string, char *key, const int& key_size ){
 
+        // cout << strlen(XORed_string) << endl;
+
         char* sp =  &XORed_string[0];
+        // cout << endl << (int)*sp << endl;
         char* ep = &XORed_string[ strlen(XORed_string) - 1];
+        // cout << (int)*ep << endl;
 
         for( int i = 0; i < (int) strlen(XORed_string); i++) {
-                if( (*sp == *ep) || (ep < sp) ) { // added collision test as well
+                if( (ep <= sp) ) { // added collision test as well
                         break;
                 }
                 if( can_swap( ( i % key_size ), key ) ) {
                         // swap chars and increment pointers
-                        // cout << "Swapped at letter: " << key[i] << endl;
+                        // cout << "Swapped at key letter: " << key[ i % key_size ] << endl;
                         char temp = *sp;
                         *sp = *ep;
                         *ep = temp;
