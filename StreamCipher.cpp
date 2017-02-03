@@ -45,6 +45,8 @@ void stream_extract_key( char* key_buffer, const string& key_file ){
 
 void StreamCipher::encrypt(){
 
+
+        cout << "Encrypting the file..." << endl;
         /* As stated in the assignment description, Stream Cipher does NOT require padding*/
 
         // Regardless of procedure, need to extract the key from the file:
@@ -74,6 +76,8 @@ void StreamCipher::encrypt(){
 
         delete[] the_key;
         delete[] file;
+
+        cout << "Done encrypting the file..." << endl;
 
 } //  end of encrypt.
 

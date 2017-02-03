@@ -19,7 +19,7 @@ void swap_chars( char *string,char *key, const int& key_size );
 int can_swap( const int& idx, char *key );
 
 // Macros:
-#define DEBUG true
+#define DEBUG false
 
 int get_key_size( const string& key_file ){
         ifstream file( key_file );
