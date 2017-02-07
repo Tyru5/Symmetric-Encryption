@@ -2,15 +2,15 @@
 # Makefile for P1 assignment
 # CS356 -> Systems Paranoia
 
-CXX		= g++
+CXX		    = g++
 OBJS		= main.o BlockCipher.o StreamCipher.o
 
 DEBUG		= -g
-CPPFLAGS	= -Wall -std=c++11 -I. -c $(DEBUG)
+CPPFLAGS	= -Wall -Wextra -std=c++11 -I. -c $(DEBUG)
 
-LDFLAGS		= -Wall $(DEBUG)
+LDFLAGS		= -Wall -Wextra $(DEBUG)
 
-EXE             = pa1
+EXE         = pa1
 
 all: clean main   # by default, make my makefile clean up the project directory, just to be safe.
 

@@ -15,7 +15,7 @@ using namespace std;
 // function prototypes
 void test( const int& file_length, const int& key_len, char* pf, char* key );
 void ReadFile( char* buffer, const string& file_name );
-void swap_chars( char *string,char *key, const int& key_size );
+void swap_chars( char *string,char *key, const int& key_size, const int& file_size );
 int can_swap( const int& idx, char *key );
 
 // Macros:
@@ -29,7 +29,7 @@ int get_key_size( const string& key_file ){
         file.seekg(0, file.beg);
         file.close();
 
-        // if(DEBUG) cout << "The size (length) of the key file is: " << key_size << endl;
+        if(DEBUG) cout << "The size (length) of the key file is: " << key_size << endl;
         return key_size;
 }
 
@@ -83,7 +83,7 @@ void BlockCipher::encrypt(){
                 // if(DEBUG)test( padded_file_size, key_length, paddedFile, the_key );
 
                 // Swap algorithm:
-                swap_chars( paddedFile, the_key, key_length );
+                swap_chars( paddedFile, the_key, key_length, padded_file_size );
 
                 // Now writing out to the file:
                 ofstream outfile( outputfile_name );
@@ -112,7 +112,7 @@ void BlockCipher::encrypt(){
                 }
 
                 // Swap algorithm:
-                swap_chars( file_np, the_key, key_length);
+                swap_chars( file_np, the_key, key_length, file_size );
 
 
                 // Now writing out to the file:
@@ -148,7 +148,7 @@ void BlockCipher::decrypt(){
         ReadFile( cipher_buffer, inputfile_name );
 
         // First, now swap algorithm:
-        swap_chars( cipher_buffer, the_key, key_length );
+        swap_chars( cipher_buffer, the_key, key_length, ret_file );
 
         // Second, XOR algorithm:
         for(int i = 0; i < ret_file; i++) {
@@ -260,17 +260,18 @@ int can_swap( const int& idx, char *key ){
         return ( (int) key[idx] % 2 == 0 ) ? 0 : 1;
 }
 
-void swap_chars( char *XORed_string, char *key, const int& key_size ){
+void swap_chars( char *XORed_string, char *key, const int& key_size, const int& file_size ){
 
-        // cout << strlen(XORed_string) << endl;
+        // cout << "In the swap_chars function" << endl;
+        // cout << file_size << endl;
 
         char* sp =  &XORed_string[0];
         // cout << endl << (int)*sp << endl;
-        char* ep = &XORed_string[ strlen(XORed_string) - 1];
+        char* ep = &XORed_string[ file_size - 1];
         // cout << (int)*ep << endl;
 
-        for( int i = 0; i < (int) strlen(XORed_string); i++) {
-                if( (ep <= sp) ) { // added collision test as well
+        for( int i = 0; i < file_size; i++) {
+                if( (ep <= sp) ) { // added collision / crossover test
                         break;
                 }
                 if( can_swap( ( i % key_size ), key ) ) {

@@ -84,6 +84,8 @@ void StreamCipher::encrypt(){
 
 void StreamCipher::decrypt(){
 
+        cout << "Decrypting the file..." << endl;
+
         // Regardless of procedure, need to extract the key from the file:
         int key_length = stream_get_key_size( key );
         char* the_key = new char[ key_length ];
@@ -112,6 +114,7 @@ void StreamCipher::decrypt(){
         delete[] the_key;
         delete[] cipher_file;
 
+        cout << "Done decrypting the file..." << endl;
 }
 
 int StreamCipher::get_length_of_file(){
