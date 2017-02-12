@@ -5,6 +5,7 @@
 // directives:
 #include <fstream>
 #include <sstream>
+#include <unistd.h> // for sleep.
 
 #include "StreamCipher.h"
 
@@ -77,7 +78,14 @@ void StreamCipher::encrypt(){
         delete[] the_key;
         delete[] file;
 
-        cout << "Done encrypting the file..." << endl;
+        /*Some cool 'affects'*/
+        for(int i = 0; i < 3; i++){
+                cout << "." << flush;
+                sleep(1);
+        }
+
+        cout << endl;
+        cout << "Done encrypting the file." << endl;
 
 } //  end of encrypt.
 
@@ -114,7 +122,14 @@ void StreamCipher::decrypt(){
         delete[] the_key;
         delete[] cipher_file;
 
-        cout << "Done decrypting the file..." << endl;
+        /*Some cool 'affects'*/
+        for(int i = 0; i < 3; i++){
+                cout << "." << flush;
+                sleep(1);
+        }
+
+        cout << endl;
+        cout << "Done decrypting the file." << endl;
 }
 
 int StreamCipher::get_length_of_file(){

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <string.h>
+#include <unistd.h> // for sleep.
 
 #include "BlockCipher.h"
 
@@ -131,7 +132,14 @@ void BlockCipher::encrypt(){
 
         } // end of else;
 
-        cout << "Done encrypting the file..." << endl;
+        /*Some cool 'affects'*/
+        for(int i = 0; i < 3; i++){
+                cout << "." << flush;
+                sleep(1);
+        }
+
+        cout << endl;
+        cout << "Done encrypting the file." << endl;
 
 } // end of encrypt
 
@@ -173,7 +181,15 @@ void BlockCipher::decrypt(){
 
         outfile.close();
 
-        cout << "Done decrypting the file..." << endl;
+
+        /*Some cool 'affects'*/
+        for(int i = 0; i < 3; i++){
+                cout << "." << flush;
+                sleep(1);
+        }
+
+        cout << endl;
+        cout << "Done decrypting the file." << endl;
 
         delete[] the_key;
         delete[] cipher_buffer;
