@@ -1,0 +1,53 @@
+Tyrus Malmstrom
+CS356 :: Systems Security
+README file for grading Project Assignment 1 :: Block and Stream Cipher
+
+::Structure of the Assignment:: 
+~This program is utilizing the concept of Symmetric Encryption. More specifically, Block and Stream cipher encryption. Block ciphers work on blocks of n bits at a time.
+Stream ciphers work on streams one bit at a time. My program will read in an input file and apply the algorithms described in the assignment description.
+It will then generate an output file.
+
+::The process of Compiling and Invoking Our Program::
+- To compile and invoke our program are as follows:
+
+  1) To *compile* my program, all the user has to do is run 'make / make all' which will compile (as well as clean up the project directory by default) and create the executable
+     "./pa1" which will run the algorithms specified.
+     - Typing "make" will compile all source files and then link object files to produce the executable: ./pa1
+     - Typing "make clean" should clean up all object and executable files as well as automatically clean the directory.
+     - Lastly, if the user wanted to *explicitly* clean the old project and then compile in one command, the user would type in
+      'make clean all' otherwise the user would type in make (which would implicitly clean up the project directory by default).
+      
+  2) To *run / invoke* my program type the following command as follows:
+	   
+	   *pa1 is run / invoked as follows:*
+	   - My program will take 5 arguments in the order defined below as stated in the project assignment. My program then ensures there are 5 arguments, and 
+	   that each argument is error-checked appropriately.
+
+	   --> ./pa1 <mode_of_encryption/decryption> <input_file> <output_file> <key> <encrypt_or_decrypt>
+
+	   Exampe: ./pa1 B die_hard_script[.txt] Ciphertext[.txt] secret_key[.txt] E
+	   --> This will take the die hard movie script and encrypt it using the secret key with *B*lock cipher encryption. Producing the ciphertext output file named "Ciphertext".
+	       [.txt] mean that you have the option to append a file extension. You don't need to.
+
+	   ~Information about program arguements are described in more detail below:~
+
+  	 - The first argument is either a 'B' or a 'S'.
+   	   *B means you will use your block cipher function
+   	   *S means you will use your stream cipher function.
+   	   *My program terminates if other than a 'B' or an 'S' is entered. It ehn produces an appropriate error message.
+
+   	 - The second argument is the input file name.
+     	   *My program terminates with an appropriate error message if the file does not exist.
+
+   	 - The third argument is the output file name.
+
+   	 - The fourth argument is the keyfile.
+   	   *The keyfile contains the symmetric key in ASCII format ("ABCDEFGH"). The keysize for Block Encryption Mode would be 64 bits (8 bytes) and can be of any length for Stream 
+   	   Encryption Mode. My program will read in the contents of the keyfile and use it to encrypt the plaintext provided in the input file. The keyfile will not contain a 
+   	   terminating "\n"(newline) character.
+
+   	 - The fifth argument is the 'mode of operation' which can be either 'E' for encryption or 'D' for decryption.
+
+
+Best,
+Tyrus Malmstrom.
