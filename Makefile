@@ -39,4 +39,4 @@ clean:
 
 package:
 	@echo "Packaging up project directory..."
-	tar -cvf $(EXE).tar *.cpp *.h Makefile README.txt
+	tar -cvf $(EXE).tar *.cpp *.h Makefile README
